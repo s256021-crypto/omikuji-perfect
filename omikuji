@@ -1,0 +1,149 @@
+from IPython.display import display, HTML
+
+html_code = """
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>恋御籤</title>
+  <style>
+    body {
+      background-color: #fdf5e6;
+      font-family: "Hiragino Mincho ProN", "MS PMincho", serif;
+      text-align: center;
+      padding-top: 50px;
+      color: #333;
+    }
+
+    .omikuji-box {
+      background-color: #fff8dc;
+      padding: 30px;
+      border: 5px double #b22222;
+      border-radius: 10px;
+      width: 320px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #b22222;
+      border-bottom: 2px solid #b22222;
+      padding-bottom: 10px;
+    }
+
+    #omikuji-result {
+      min-height: 120px;
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: #b22222;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #8b0000;
+    }
+
+    .fortune {
+      font-size: 2em;
+      font-weight: bold;
+      color: #d4af37;
+      margin: 0;
+    }
+
+    .message {
+      font-size: 1em;
+      color: #333;
+      margin-top: 10px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="omikuji-box">
+    <h2>恋御籤</h2>
+    <div id="omikuji-result">
+      <p>あなたの運勢を占います</p>
+    </div>
+    <button id="draw-btn" onclick="drawOmikuji()">おみくじを引く</button>
+  </div>
+
+  <script>
+    const fortunes = ["大吉", "吉", "中吉", "末吉", "凶", "大凶"];
+
+    // 運勢ごとに5種類のメッセージを設定するマップ
+    const messagesByFortune = {
+      "大吉": [
+        "一回のいただきますより一回のご馳走様でした",
+        "告白するなら食堂裏で",
+        "いっぱい食べる貴方は世界一可愛いと",
+        "この恋は大学芋よりも甘い",
+        "この味は恋の味",
+        "いただきますが世界を変えるで",
+        "食は自分を強くする",
+        "出来立てのチャンスは今が食べごろ",
+        "食べた分相手も近づく",
+        "食は火加減、恋は機嫌で",
+        "隠し味はあなたの笑顔",
+        "ライスのサイズは愛の大きさ",
+        "よく食堂で会うならそれは運命を",
+        "一日三食、一喋り",
+        "その恋テクアウトできますか？",
+        "ごはんは大盛り、今日の恋は熱盛！"
+      ],
+
+      "大凶": [
+        "一口ちょうだいに要注意",
+        "その恋まだ熟れてないかも",
+        "恋の焦りは火傷の元",
+        "恋と料理はスピード勝負で",
+        "その恋、火加減注意と",
+        "今日のご飯は塩強め",
+        "今日はなんだか一味足りないと",
+        "やけ食いするだけ、今は止まりなさい",
+        "食の乱れは心の乱れ",
+        "その恋、胃もたれしてない？",
+        "その愛少し味濃いめかも",
+        "ちょっと食べすぎかも、休憩も大切で",
+        "そろそろ味変しよう！",
+        "その恋温めなおしますか？"
+      ]
+    };
+
+    const drawBtn = document.getElementById('draw-btn');
+
+    function drawOmikuji() {
+      // 二重実行防止ガード: 既に無効化されていれば何もしない
+      if (drawBtn && drawBtn.disabled) return;
+      const fortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+      // 運勢に対応するメッセージ配列からランダムに選択
+      const messages = messagesByFortune[fortune] || ["良い一日をお過ごしください。"];
+      const message = messages[Math.floor(Math.random() * messages.length)];
+      const resultDiv = document.getElementById("omikuji-result");
+
+      resultDiv.innerHTML = `
+        <p class="fortune">${fortune}</p>
+        <p class="message">${message}</p>
+      `;
+
+      // 再抽選を防ぐ
+      if (drawBtn) {
+        drawBtn.disabled = true;
+        drawBtn.style.opacity = '0.6';
+      }
+    }
+
+  </script>
+</body>
+</html>
+"""
+
+display(HTML(html_code))
